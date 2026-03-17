@@ -4,8 +4,8 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
   let animId = null;
   let running = false;
 
-  const PLAYER_W = 20;
-  const PLAYER_H = 24;
+  const PLAYER_W = 24;
+  const PLAYER_H = 32;
   const PLAT_H = 10;
   const GRAVITY = 0.35;
   const JUMP_FORCE = -8;
@@ -16,6 +16,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
   let lastTime = 0;
   let leftPressed = false, rightPressed = false;
   let canJump = false;
+  let playerOnGround = false;
 
   function resize() {
     const maxW = area.clientWidth;
@@ -82,7 +83,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
     // Gravity
     player.vy += GRAVITY;
     player.y += player.vy;
-    let onGround = false;
+    playerOnGround = false;
 
     // Platform collision (falling)
     if (player.vy >= 0) {
@@ -101,7 +102,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
           }
           player.y = plat.y - PLAYER_H;
           player.vy = 0;
-          onGround = true;
+          playerOnGround = true;
           canJump = true;
 
           if (plat.type === 'crumble' && !plat.crumbling) {
@@ -114,7 +115,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
     }
 
     // Auto jump when on ground (like original upstairs game)
-    if (onGround && canJump) {
+    if (playerOnGround && canJump) {
       // Check for jump input or auto-jump
       if (Input.isDown('ArrowUp') || Input.isDown('w') || Input.isDown(' ')) {
         player.vy = JUMP_FORCE;
@@ -198,14 +199,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
     }
 
     // Player
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(player.x, player.y, PLAYER_W, PLAYER_H);
-    ctx.fillStyle = '#000';
-    if (player.facing > 0) {
-      ctx.fillRect(player.x + 12, player.y + 6, 4, 4);
-    } else {
-      ctx.fillRect(player.x + 4, player.y + 6, 4, 4);
-    }
+    Character.draw(ctx, player.x, player.y, PLAYER_W, PLAYER_H, player.facing, player.vy, playerOnGround);
   }
 
   function loop(ts) {

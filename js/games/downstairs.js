@@ -5,8 +5,8 @@ App.registerGame('downstairs', ({ canvas, area, controls, onGameOver, onScore })
   let running = false;
 
   // Game state
-  const PLAYER_W = 20;
-  const PLAYER_H = 24;
+  const PLAYER_W = 24;
+  const PLAYER_H = 32;
   const PLAT_H = 10;
   const GRAVITY = 0.35;
   const MOVE_SPEED = 3;
@@ -158,19 +158,7 @@ App.registerGame('downstairs', ({ canvas, area, controls, onGameOver, onScore })
     }
 
     // Player
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(player.x, player.y, PLAYER_W, PLAYER_H);
-    // Eyes
-    ctx.fillStyle = '#000';
-    if (player.facing > 0) {
-      ctx.fillRect(player.x + 12, player.y + 6, 4, 4);
-    } else {
-      ctx.fillRect(player.x + 4, player.y + 6, 4, 4);
-    }
-    // Feet
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.fillRect(player.x + 2, player.y + PLAYER_H, 6, 2);
-    ctx.fillRect(player.x + PLAYER_W - 8, player.y + PLAYER_H, 6, 2);
+    Character.draw(ctx, player.x, player.y, PLAYER_W, PLAYER_H, player.facing, player.vy, player.onGround);
   }
 
   function loop(ts) {

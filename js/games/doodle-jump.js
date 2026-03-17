@@ -4,8 +4,8 @@ App.registerGame('doodle-jump', ({ canvas, area, controls, onGameOver, onScore }
   let animId = null;
   let running = false;
 
-  const PLAYER_W = 20;
-  const PLAYER_H = 24;
+  const PLAYER_W = 24;
+  const PLAYER_H = 32;
   const PLAT_H = 10;
   const JUMP_FORCE = -9;
   const GRAVITY = 0.3;
@@ -194,15 +194,7 @@ App.registerGame('doodle-jump', ({ canvas, area, controls, onGameOver, onScore }
     }
 
     // Player
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(player.x, player.y, PLAYER_W, PLAYER_H);
-    // Eyes
-    ctx.fillStyle = '#000';
-    if (player.facing > 0) {
-      ctx.fillRect(player.x + 12, player.y + 6, 4, 4);
-    } else {
-      ctx.fillRect(player.x + 4, player.y + 6, 4, 4);
-    }
+    Character.draw(ctx, player.x, player.y, PLAYER_W, PLAYER_H, player.facing, player.vy, false);
 
     ctx.restore();
   }
