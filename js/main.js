@@ -4,6 +4,7 @@
     game: document.getElementById('screen-game'),
     gameover: document.getElementById('screen-gameover'),
     difficulty: document.getElementById('screen-difficulty'),
+    tetrisMode: document.getElementById('screen-tetris-mode'),
   };
 
   const games = App._games;
@@ -87,6 +88,8 @@
         const id = card.dataset.game;
         if (id === 'minesweeper') {
           showScreen('difficulty');
+        } else if (id === 'tetris') {
+          showScreen('tetrisMode');
         } else {
           startGame(id);
         }
@@ -106,6 +109,21 @@
       showScreen('hub');
     });
 
+    // Tetris mode selection
+    let lastTetrisMode = 'classic';
+    document.querySelectorAll('[data-tmode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        Audio.click();
+        lastTetrisMode = btn.dataset.tmode;
+        startGame('tetris', { mode: btn.dataset.tmode });
+      });
+    });
+
+    document.getElementById('btn-tmode-back').addEventListener('click', () => {
+      Audio.click();
+      showScreen('hub');
+    });
+
     // Back button
     document.getElementById('btn-back').addEventListener('click', () => {
       Audio.click();
@@ -118,8 +136,8 @@
     // Game over buttons
     document.getElementById('btn-retry').addEventListener('click', () => {
       Audio.click();
-      if (currentGame === 'minesweeper') {
-        startGame(currentGame, gameInstance ? gameInstance.lastOptions : {});
+      if (gameInstance && gameInstance.lastOptions) {
+        startGame(currentGame, gameInstance.lastOptions);
       } else {
         startGame(currentGame);
       }
