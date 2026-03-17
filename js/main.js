@@ -1,4 +1,4 @@
-const App = (() => {
+(() => {
   const screens = {
     hub: document.getElementById('screen-hub'),
     game: document.getElementById('screen-game'),
@@ -6,13 +6,9 @@ const App = (() => {
     difficulty: document.getElementById('screen-difficulty'),
   };
 
-  const games = {};
+  const games = App._games;
   let currentGame = null;
   let gameInstance = null;
-
-  function registerGame(id, factory) {
-    games[id] = factory;
-  }
 
   function showScreen(name) {
     Object.values(screens).forEach(s => s.classList.remove('active'));
@@ -161,5 +157,6 @@ const App = (() => {
 
   document.addEventListener('DOMContentLoaded', init);
 
-  return { registerGame, startGame, showScreen };
+  App.startGame = startGame;
+  App.showScreen = showScreen;
 })();
