@@ -25,6 +25,15 @@ const I18n = (() => {
       floor: '樓層',
       height: '高度',
       game_tetris: '俄羅斯方塊',
+      select_mode: '選擇模式',
+      mode_classic: '經典',
+      mode_marathon: '馬拉松',
+      mode_timeattack: '限時挑戰',
+      mode_sprint40: '40 行衝刺',
+      mode_garbage: '垃圾行',
+      mode_invisible: '隱形',
+      mode_zen: '禪修',
+      mode_ultra: '極速衝刺',
     },
     en: {
       game_downstairs: 'Downstairs',
@@ -51,6 +60,15 @@ const I18n = (() => {
       floor: 'FLOOR',
       height: 'HEIGHT',
       game_tetris: 'Tetris',
+      select_mode: 'SELECT MODE',
+      mode_classic: 'CLASSIC',
+      mode_marathon: 'MARATHON',
+      mode_timeattack: 'TIME ATTACK',
+      mode_sprint40: '40 LINES',
+      mode_garbage: 'GARBAGE',
+      mode_invisible: 'INVISIBLE',
+      mode_zen: 'ZEN',
+      mode_ultra: 'ULTRA',
     }
   };
 
