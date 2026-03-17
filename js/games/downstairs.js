@@ -8,9 +8,9 @@ App.registerGame('downstairs', ({ canvas, area, controls, onGameOver, onScore })
   const PLAYER_W = 24;
   const PLAYER_H = 32;
   const PLAT_H = 10;
-  const GRAVITY = 0.35;
+  const GRAVITY = 0.25;
   const MOVE_SPEED = 3;
-  const SCROLL_SPEED_BASE = 0.8;
+  const SCROLL_SPEED_BASE = 0.45;
 
   let player, platforms, scrollSpeed, score, bestScore;
   let lastTime = 0;
@@ -110,7 +110,7 @@ App.registerGame('downstairs', ({ canvas, area, controls, onGameOver, onScore })
     while (platforms.length > 0 && platforms[0].y + PLAT_H < 0) {
       platforms.shift();
       score++;
-      if (score % 10 === 0) scrollSpeed += 0.1;
+      if (score % 15 === 0) scrollSpeed += 0.06;
       onScore(`${I18n.t('score')}: ${score}`);
     }
 

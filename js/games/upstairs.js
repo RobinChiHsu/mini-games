@@ -7,10 +7,10 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
   const PLAYER_W = 24;
   const PLAYER_H = 32;
   const PLAT_H = 10;
-  const GRAVITY = 0.35;
-  const JUMP_FORCE = -8;
+  const GRAVITY = 0.25;
+  const JUMP_FORCE = -7;
   const MOVE_SPEED = 3;
-  const SCROLL_SPEED_BASE = 0.6;
+  const SCROLL_SPEED_BASE = 0.35;
 
   let player, platforms, scrollSpeed, score, floor;
   let lastTime = 0;
@@ -163,7 +163,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
       platforms.push(createPlatform(topPlat));
       floor++;
       score = floor;
-      if (floor % 15 === 0) scrollSpeed += 0.08;
+      if (floor % 20 === 0) scrollSpeed += 0.05;
       onScore(`${I18n.t('floor')}: ${score}`);
     }
 

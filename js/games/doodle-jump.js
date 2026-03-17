@@ -7,9 +7,9 @@ App.registerGame('doodle-jump', ({ canvas, area, controls, onGameOver, onScore }
   const PLAYER_W = 24;
   const PLAYER_H = 32;
   const PLAT_H = 10;
-  const JUMP_FORCE = -9;
-  const GRAVITY = 0.3;
-  const MOVE_SPEED = 4;
+  const JUMP_FORCE = -7.5;
+  const GRAVITY = 0.22;
+  const MOVE_SPEED = 3.5;
 
   let player, platforms, score, camera, maxHeight;
   let lastTime = 0;
