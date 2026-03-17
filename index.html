@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#0a0a0a">
   <title>MINI GAMES</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/icon-192.png">
@@ -19,30 +19,30 @@
       <h1 class="title">MINI GAMES</h1>
       <div class="game-list">
         <button class="game-card" data-game="downstairs">
-          <span class="game-icon">⬇</span>
+          <span class="game-icon" data-icon="downstairs"></span>
           <span class="game-name" data-i18n="game_downstairs">下樓梯</span>
         </button>
         <button class="game-card" data-game="doodle-jump">
-          <span class="game-icon">⬆</span>
+          <span class="game-icon" data-icon="doodle"></span>
           <span class="game-name" data-i18n="game_doodle">Doodle Jump</span>
         </button>
         <button class="game-card" data-game="upstairs">
-          <span class="game-icon">🪜</span>
+          <span class="game-icon" data-icon="upstairs"></span>
           <span class="game-name" data-i18n="game_upstairs">上樓梯</span>
         </button>
         <button class="game-card" data-game="minesweeper">
-          <span class="game-icon">💣</span>
+          <span class="game-icon" data-icon="mine"></span>
           <span class="game-name" data-i18n="game_minesweeper">踩地雷</span>
         </button>
-        <button class="game-card" data-game="tetris" style="grid-column: 1 / -1;">
-          <span class="game-icon">🧱</span>
+        <button class="game-card wide" data-game="tetris">
+          <span class="game-icon" data-icon="tetris"></span>
           <span class="game-name" data-i18n="game_tetris">俄羅斯方塊</span>
         </button>
       </div>
       <div class="hub-footer">
         <button class="icon-btn" id="btn-settings" aria-label="Settings">⚙</button>
-        <button class="icon-btn" id="btn-lang" aria-label="Language">🌐</button>
-        <button class="icon-btn" id="btn-sound" aria-label="Sound">🔊</button>
+        <button class="icon-btn" id="btn-lang" aria-label="Language">EN</button>
+        <button class="icon-btn" id="btn-sound" aria-label="Sound">♪</button>
       </div>
     </div>
   </div>
@@ -104,6 +104,7 @@
   </div>
 
   <script src="js/app.js"></script>
+  <script src="js/icons.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/audio.js"></script>

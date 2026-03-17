@@ -1,9 +1,10 @@
-const CACHE_NAME = 'mini-games-v6';
+const CACHE_NAME = 'mini-games-v7';
 const ASSETS = [
   '/',
   '/index.html',
   '/css/style.css',
   '/js/app.js',
+  '/js/icons.js',
   '/js/main.js',
   '/js/i18n.js',
   '/js/storage.js',

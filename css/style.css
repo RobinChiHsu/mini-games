@@ -9,9 +9,9 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #000;
+  background: #0a0a0a;
   color: #fff;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   touch-action: manipulation;
 }
 
@@ -37,28 +37,33 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   width: 100%;
   max-width: 400px;
 }
 
 .title {
-  font-size: 2.5rem;
-  letter-spacing: 0.4em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-align: center;
-  font-weight: 300;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .small-title {
-  font-size: 1.5rem;
-  letter-spacing: 0.2em;
-  font-weight: 300;
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
 }
 
 .game-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 12px;
   width: 100%;
 }
 
@@ -66,89 +71,145 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1.5rem 1rem;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.25);
+  gap: 10px;
+  padding: 20px 12px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
   color: #fff;
   font-family: inherit;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: 16px;
 }
 
 .game-card:hover, .game-card:active {
-  background: #fff;
-  color: #000;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-1px);
+}
+
+.game-card:hover::before, .game-card:active::before {
+  opacity: 1;
 }
 
 .game-icon {
-  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.game-icon canvas {
+  display: block;
 }
 
 .game-name {
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  position: relative;
+  z-index: 1;
+}
+
+.game-card.wide {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  gap: 14px;
+  padding: 16px 20px;
+}
+
+.game-card.wide .game-icon {
+  width: 40px;
+  height: 40px;
 }
 
 .hub-footer {
   display: flex;
-  gap: 1.5rem;
+  gap: 12px;
 }
 
 .icon-btn {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  font-size: 1.2rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  color: rgba(255,255,255,0.5);
+  font-size: 1rem;
   width: 44px;
   height: 44px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.2s ease;
 }
 
 .icon-btn:hover, .icon-btn:active {
-  background: #fff;
-  color: #000;
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
 }
 
 .icon-btn.muted {
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.2);
 }
 
 /* Menu Buttons */
 .menu-btn {
   font-family: inherit;
-  font-size: 0.9rem;
-  letter-spacing: 0.15em;
-  padding: 0.75rem 2rem;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
   color: #fff;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.2s ease;
   width: 100%;
   text-align: center;
 }
 
 .menu-btn:hover, .menu-btn:active {
-  background: #fff;
-  color: #000;
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
 }
 
 .menu-btn.secondary {
-  border-color: rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.6);
-  margin-top: 1rem;
+  border-color: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.45);
+  margin-top: 0.75rem;
 }
 
-/* Difficulty */
+.menu-btn.secondary:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+/* Difficulty / Mode */
 .difficulty-list, .mode-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 8px;
   width: 100%;
   max-width: 280px;
 }
@@ -163,22 +224,37 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
+  padding: 8px 12px;
   width: 100%;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   flex-shrink: 0;
 }
 
+.game-header .icon-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+}
+
 .game-title {
-  font-weight: 300;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
 }
 
 .game-score {
-  font-weight: 300;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
   min-width: 80px;
   text-align: right;
+  font-family: 'SF Mono', 'Courier New', monospace;
+  font-size: 0.8rem;
 }
 
 .game-area {
@@ -198,35 +274,38 @@ html, body {
 .game-controls {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0));
+  gap: 8px;
+  padding: 10px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0));
   flex-shrink: 0;
 }
 
-/* Touch Controls - Platform Games */
+/* Touch Controls */
 .ctrl-btn {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  color: rgba(255,255,255,0.5);
   font-family: inherit;
-  font-size: 1.5rem;
-  width: 64px;
-  height: 64px;
+  font-size: 1.3rem;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
   -webkit-user-select: none;
+  transition: all 0.1s;
 }
 
 .ctrl-btn.pressed {
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.3);
 }
 
 .ctrl-spacer {
-  width: 48px;
+  width: 32px;
 }
 
 /* Game Over */
@@ -234,52 +313,56 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   padding: 2rem;
-  max-width: 350px;
+  max-width: 320px;
 }
 
 .gameover-title {
-  font-size: 2rem;
-  letter-spacing: 0.3em;
-  font-weight: 300;
+  font-size: 1.5rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .gameover-stats {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   line-height: 2;
   text-align: center;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.6);
 }
 
 .gameover-stats .highlight {
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .gameover-actions {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 8px;
   width: 100%;
 }
 
-/* Minesweeper specific */
+/* Minesweeper */
 .mine-grid {
   display: grid;
   gap: 1px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .mine-cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.05);
-  font-family: inherit;
-  font-weight: bold;
+  background: rgba(255,255,255,0.04);
+  font-family: 'SF Mono', 'Courier New', monospace;
+  font-weight: 700;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -290,15 +373,15 @@ html, body {
 }
 
 .mine-cell.hidden {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.1);
 }
 
 .mine-cell.hidden:hover {
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.2);
 }
 
 .mine-cell.hidden:active {
-  background: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.25);
 }
 
 .mine-cell.revealed {
@@ -306,56 +389,57 @@ html, body {
 }
 
 .mine-cell.flagged {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.1);
 }
 
 .mine-cell.mine {
-  background: rgba(255,80,80,0.3);
+  background: rgba(255,80,80,0.25);
 }
 
-.mine-cell .n1 { color: #88f; }
-.mine-cell .n2 { color: #4c4; }
-.mine-cell .n3 { color: #f44; }
-.mine-cell .n4 { color: #44f; }
-.mine-cell .n5 { color: #a22; }
-.mine-cell .n6 { color: #4aa; }
-.mine-cell .n7 { color: #333; }
-.mine-cell .n8 { color: #888; }
+.mine-cell .n1 { color: #6ea8fe; }
+.mine-cell .n2 { color: #63d97a; }
+.mine-cell .n3 { color: #ff6b6b; }
+.mine-cell .n4 { color: #748ffc; }
+.mine-cell .n5 { color: #e85d5d; }
+.mine-cell .n6 { color: #51c4c4; }
+.mine-cell .n7 { color: #999; }
+.mine-cell .n8 { color: #bbb; }
 
 .mine-controls {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
+  gap: 1rem;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .mine-toggle {
   font-family: inherit;
-  font-size: 0.85rem;
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
   color: #fff;
   cursor: pointer;
-  letter-spacing: 0.1em;
 }
 
 .mine-toggle.active {
-  background: #fff;
-  color: #000;
+  background: rgba(255,255,255,0.9);
+  color: #0a0a0a;
 }
 
 /* Responsive */
 @media (max-height: 600px) {
-  .title { font-size: 1.8rem; }
+  .title { font-size: 1.3rem; }
   .hub-container { gap: 1rem; padding: 1rem; }
-  .game-card { padding: 1rem 0.75rem; }
-  .ctrl-btn { width: 56px; height: 56px; font-size: 1.3rem; }
+  .game-card { padding: 14px 10px 12px; }
+  .ctrl-btn { width: 52px; height: 52px; font-size: 1.2rem; }
 }
 
 @media (min-width: 768px) {
-  .game-list { max-width: 360px; }
-  .ctrl-btn { width: 72px; height: 72px; }
+  .game-list { max-width: 380px; }
+  .ctrl-btn { width: 68px; height: 68px; }
 }

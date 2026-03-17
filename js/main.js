@@ -80,6 +80,7 @@
 
   function init() {
     I18n.applyAll();
+    Icons.renderAll();
 
     // Game cards
     document.querySelectorAll('.game-card').forEach(card => {
@@ -156,7 +157,7 @@
 
     document.getElementById('btn-sound').addEventListener('click', () => {
       const on = Audio.toggle();
-      document.getElementById('btn-sound').textContent = on ? '🔊' : '🔇';
+      document.getElementById('btn-sound').textContent = on ? '♪' : '✕';
       document.getElementById('btn-sound').classList.toggle('muted', !on);
     });
 
