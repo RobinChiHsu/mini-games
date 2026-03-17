@@ -13,6 +13,37 @@ const Icons = (() => {
     return { c, ctx };
   }
 
+  // Mini slime for icons
+  function drawSlime(ctx, cx, cy, size) {
+    const px = size * 0.15;
+    const bodyColor = '#5ddb6e';
+    const dark = '#3aad4a';
+    const light = '#8cf09a';
+
+    // Simple dome shape
+    ctx.fillStyle = bodyColor;
+    ctx.fillRect(cx - px * 2, cy - px, px * 4, px * 3);
+    ctx.fillRect(cx - px * 3, cy, px * 6, px * 2);
+    ctx.fillRect(cx - px * 2, cy + px * 2, px * 4, px);
+
+    // Top highlight
+    ctx.fillStyle = light;
+    ctx.fillRect(cx - px, cy - px, px * 2, px);
+
+    // Edges
+    ctx.fillStyle = dark;
+    ctx.fillRect(cx - px * 3, cy, px, px * 2);
+    ctx.fillRect(cx + px * 2, cy, px, px * 2);
+
+    // Eyes
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(cx - px * 1.5, cy, px, px);
+    ctx.fillRect(cx + px * 0.5, cy, px, px);
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(cx - px * 1.2, cy + px * 0.2, px * 0.5, px * 0.6);
+    ctx.fillRect(cx + px * 0.7, cy + px * 0.2, px * 0.5, px * 0.6);
+  }
+
   function downstairs(size) {
     const { c, ctx } = create(size);
     const s = size;
@@ -20,40 +51,23 @@ const Icons = (() => {
 
     // Platforms (steps going down)
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fillRect(s*0.1, s*0.2, s*0.35, 3);
-    ctx.fillRect(s*0.3, s*0.42, s*0.4, 3);
-    ctx.fillRect(s*0.15, s*0.64, s*0.35, 3);
-    ctx.fillRect(s*0.45, s*0.82, s*0.4, 3);
+    ctx.fillRect(s*0.1, s*0.25, s*0.35, 3);
+    ctx.fillRect(s*0.3, s*0.47, s*0.4, 3);
+    ctx.fillRect(s*0.15, s*0.69, s*0.35, 3);
+    ctx.fillRect(s*0.45, s*0.85, s*0.4, 3);
 
-    // Character (little circle person)
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(s*0.45, s*0.34, s*0.07, 0, Math.PI*2);
-    ctx.fill();
-    // Body
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(s*0.45, s*0.41);
-    ctx.lineTo(s*0.45, s*0.52);
-    ctx.stroke();
-    // Legs
-    ctx.beginPath();
-    ctx.moveTo(s*0.45, s*0.52);
-    ctx.lineTo(s*0.38, s*0.6);
-    ctx.moveTo(s*0.45, s*0.52);
-    ctx.lineTo(s*0.52, s*0.6);
-    ctx.stroke();
+    // Slime on platform
+    drawSlime(ctx, s * 0.45, s * 0.35, s * 0.5);
 
     // Arrow down
     ctx.strokeStyle = 'rgba(255,255,255,0.3)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(s*0.8, s*0.3);
-    ctx.lineTo(s*0.8, s*0.6);
-    ctx.lineTo(s*0.73, s*0.53);
-    ctx.moveTo(s*0.8, s*0.6);
-    ctx.lineTo(s*0.87, s*0.53);
+    ctx.moveTo(s*0.82, s*0.3);
+    ctx.lineTo(s*0.82, s*0.6);
+    ctx.lineTo(s*0.75, s*0.53);
+    ctx.moveTo(s*0.82, s*0.6);
+    ctx.lineTo(s*0.89, s*0.53);
     ctx.stroke();
 
     return c;
@@ -80,31 +94,8 @@ const Icons = (() => {
     ctx.lineTo(s*0.6, s*0.44);
     ctx.stroke();
 
-    // Character jumping up
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(s*0.35, s*0.2, s*0.08, 0, Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(s*0.35, s*0.28);
-    ctx.lineTo(s*0.35, s*0.4);
-    ctx.stroke();
-    // Arms up
-    ctx.beginPath();
-    ctx.moveTo(s*0.35, s*0.32);
-    ctx.lineTo(s*0.25, s*0.26);
-    ctx.moveTo(s*0.35, s*0.32);
-    ctx.lineTo(s*0.45, s*0.26);
-    ctx.stroke();
-    // Legs
-    ctx.beginPath();
-    ctx.moveTo(s*0.35, s*0.4);
-    ctx.lineTo(s*0.28, s*0.48);
-    ctx.moveTo(s*0.35, s*0.4);
-    ctx.lineTo(s*0.42, s*0.48);
-    ctx.stroke();
+    // Slime jumping up
+    drawSlime(ctx, s * 0.35, s * 0.15, s * 0.5);
 
     // Arrow up
     ctx.strokeStyle = 'rgba(255,255,255,0.3)';
@@ -132,31 +123,8 @@ const Icons = (() => {
     ctx.fillRect(s*0.4, s*0.44, s*0.3, 3);
     ctx.fillRect(s*0.55, s*0.26, s*0.3, 3);
 
-    // Character on stairs
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(s*0.38, s*0.36, s*0.07, 0, Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(s*0.38, s*0.43);
-    ctx.lineTo(s*0.38, s*0.54);
-    ctx.stroke();
-    // Legs (stepping up)
-    ctx.beginPath();
-    ctx.moveTo(s*0.38, s*0.54);
-    ctx.lineTo(s*0.32, s*0.6);
-    ctx.moveTo(s*0.38, s*0.54);
-    ctx.lineTo(s*0.44, s*0.58);
-    ctx.stroke();
-    // Arms
-    ctx.beginPath();
-    ctx.moveTo(s*0.38, s*0.46);
-    ctx.lineTo(s*0.3, s*0.42);
-    ctx.moveTo(s*0.38, s*0.46);
-    ctx.lineTo(s*0.46, s*0.5);
-    ctx.stroke();
+    // Slime on stairs
+    drawSlime(ctx, s * 0.52, s * 0.32, s * 0.5);
 
     return c;
   }
