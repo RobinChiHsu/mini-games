@@ -1,20 +1,20 @@
-// Shared character renderer — pixel-art slime
+// Shared character renderer — Modern "Juicy" Slime
 const Character = (() => {
   function draw(ctx, x, y, w, h, facing, vy, onGround) {
     const cx = x + w / 2;
     const bot = y + h;
 
-    // Squash & stretch
-    const stretch = Math.min(Math.abs(vy) * 0.01, 0.15);
+    // Squash & stretch logic
+    const stretch = Math.min(Math.abs(vy) * 0.015, 0.25);
     let scaleX, scaleY;
-    if (vy < -2) {
+    if (vy < -1) {
       // Jumping up — tall & narrow
-      scaleX = 1 - stretch * 0.5;
+      scaleX = 1 - stretch * 0.6;
       scaleY = 1 + stretch;
-    } else if (vy > 2) {
+    } else if (vy > 1) {
       // Falling — wide & flat
-      scaleX = 1 + stretch * 0.5;
-      scaleY = 1 - stretch * 0.7;
+      scaleX = 1 + stretch * 0.4;
+      scaleY = 1 - stretch * 0.5;
     } else {
       scaleX = 1;
       scaleY = 1;
@@ -23,7 +23,9 @@ const Character = (() => {
     // Idle bounce
     let bounceY = 0;
     if (onGround && Math.abs(vy) < 1) {
-      bounceY = Math.sin(Date.now() * 0.005) * 1.5;
+      bounceY = Math.sin(Date.now() * 0.006) * 2;
+      scaleX += Math.sin(Date.now() * 0.006) * 0.02;
+      scaleY -= Math.sin(Date.now() * 0.006) * 0.02;
     }
 
     ctx.save();
@@ -31,106 +33,101 @@ const Character = (() => {
     ctx.scale(scaleX, scaleY);
     ctx.translate(-cx, -bot);
 
-    const slimeW = w * 0.9;
-    const slimeH = h * 0.75;
+    const slimeW = w * 0.95;
+    const slimeH = h * 0.8;
     const slimeX = cx - slimeW / 2;
     const slimeY = bot - slimeH + bounceY;
 
-    // Shadow
+    // 1. Shadow on ground
     if (onGround) {
-      ctx.fillStyle = 'rgba(100,220,140,0.12)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.beginPath();
-      ctx.ellipse(cx, bot + 2, slimeW * 0.45, 2.5, 0, 0, Math.PI * 2);
+      ctx.ellipse(cx, bot + 2, slimeW * 0.4, 3, 0, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    // Slime body — pixel-art style using small blocks
-    const px = Math.max(2, Math.floor(w / 8)); // pixel size
+    // 2. Slime Body (Organic Shape)
+    const r = slimeW * 0.45; // base radius
+    ctx.beginPath();
+    ctx.moveTo(slimeX, bot + bounceY);
+    // Bottom curve
+    ctx.bezierCurveTo(slimeX, bot + bounceY - r*0.2, cx - r, slimeY, cx, slimeY);
+    ctx.bezierCurveTo(cx + r, slimeY, slimeX + slimeW, bot + bounceY - r*0.2, slimeX + slimeW, bot + bounceY);
+    ctx.closePath();
 
-    // Build slime shape row by row (approximate dome/blob)
-    const bodyColor = '#5ddb6e';
-    const darkColor = '#3aad4a';
-    const lightColor = '#8cf09a';
+    // Body Gradient
+    const grad = ctx.createLinearGradient(cx, slimeY, cx, bot + bounceY);
+    grad.addColorStop(0, '#ccff00'); // Electric Lime top
+    grad.addColorStop(1, '#99cc00'); // Slightly darker bottom
+    ctx.fillStyle = grad;
+    ctx.fill();
 
-    // Row definitions: [offsetFromCenter, width] in pixel units
-    const rows = [
-      { oy: 0, half: 2 },   // top
-      { oy: 1, half: 3 },
-      { oy: 2, half: 4 },
-      { oy: 3, half: 4 },
-      { oy: 4, half: 5 },
-      { oy: 5, half: 5 },
-      { oy: 6, half: 5 },   // widest
-      { oy: 7, half: 4 },
-      { oy: 8, half: 4 },   // bottom
-    ];
+    // Glossy Highlight
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.beginPath();
+    ctx.ellipse(cx - slimeW * 0.2, slimeY + slimeH * 0.2, slimeW * 0.15, slimeH * 0.1, Math.PI * -0.1, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Scale rows to fit
-    const totalRows = 9;
-    const pxH = slimeH / totalRows;
-    const pxW = px;
-
-    // Draw body pixels
-    for (const row of rows) {
-      const ry = slimeY + row.oy * pxH;
-      for (let i = -row.half; i < row.half; i++) {
-        const rx = cx + i * pxW;
-        // Edge pixels are darker
-        if (i === -row.half || i === row.half - 1) {
-          ctx.fillStyle = darkColor;
-        } else if (i === -row.half + 1 && row.oy <= 3) {
-          // Highlight on top-left
-          ctx.fillStyle = lightColor;
-        } else {
-          ctx.fillStyle = bodyColor;
-        }
-        ctx.fillRect(Math.floor(rx), Math.floor(ry), Math.ceil(pxW), Math.ceil(pxH));
-      }
-    }
-
-    // Top highlight pixels
-    ctx.fillStyle = lightColor;
-    ctx.fillRect(Math.floor(cx - pxW), Math.floor(slimeY), Math.ceil(pxW), Math.ceil(pxH));
-    ctx.fillRect(Math.floor(cx), Math.floor(slimeY), Math.ceil(pxW), Math.ceil(pxH));
-
-    // Eyes
-    const eyeY = slimeY + pxH * 3;
-    const eyeSpan = pxW * 1.5;
-    const eyeShift = facing * pxW * 0.3;
-
-    // White of eyes
+    // 3. Eyes (More expressive)
+    const eyeY = slimeY + slimeH * 0.35;
+    const eyeSpacing = slimeW * 0.18;
+    const eyeSize = slimeW * 0.12;
+    const eyeShiftX = facing * slimeW * 0.08;
+    
+    // Eye Whites
     ctx.fillStyle = '#fff';
-    ctx.fillRect(Math.floor(cx - eyeSpan + eyeShift - pxW * 0.5), Math.floor(eyeY), Math.ceil(pxW * 1.5), Math.ceil(pxH * 2));
-    ctx.fillRect(Math.floor(cx + eyeSpan + eyeShift - pxW), Math.floor(eyeY), Math.ceil(pxW * 1.5), Math.ceil(pxH * 2));
+    // Left Eye
+    ctx.beginPath();
+    ctx.ellipse(cx - eyeSpacing + eyeShiftX, eyeY, eyeSize * 0.8, eyeSize, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Right Eye
+    ctx.beginPath();
+    ctx.ellipse(cx + eyeSpacing + eyeShiftX, eyeY, eyeSize * 0.8, eyeSize, 0, 0, Math.PI * 2);
+    ctx.fill();
 
     // Pupils
-    ctx.fillStyle = '#1a1a2e';
-    const pupilShift = facing * pxW * 0.25;
-    ctx.fillRect(Math.floor(cx - eyeSpan + eyeShift + pupilShift), Math.floor(eyeY + pxH * 0.5), Math.ceil(pxW * 0.8), Math.ceil(pxH * 1));
-    ctx.fillRect(Math.floor(cx + eyeSpan + eyeShift + pupilShift - pxW * 0.3), Math.floor(eyeY + pxH * 0.5), Math.ceil(pxW * 0.8), Math.ceil(pxH * 1));
+    ctx.fillStyle = '#0d0d12';
+    const pupilShiftX = facing * eyeSize * 0.3;
+    const pupilSize = eyeSize * 0.5;
+    ctx.beginPath();
+    ctx.arc(cx - eyeSpacing + eyeShiftX + pupilShiftX, eyeY, pupilSize, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx + eyeSpacing + eyeShiftX + pupilShiftX, eyeY, pupilSize, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Mouth
-    const mouthY = slimeY + pxH * 5.5;
+    // 4. Mouth
+    const mouthY = eyeY + slimeH * 0.25;
+    ctx.strokeStyle = '#2d7a3a';
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
 
-    if (vy < -4) {
-      // Jumping — happy open mouth
+    if (vy < -3) {
+      // Jumping — Happy "D" mouth
       ctx.fillStyle = '#2d7a3a';
-      ctx.fillRect(Math.floor(cx - pxW * 0.8 + eyeShift), Math.floor(mouthY), Math.ceil(pxW * 1.6), Math.ceil(pxH));
-    } else if (vy > 5) {
-      // Falling — surprised O mouth
-      ctx.fillStyle = '#2d7a3a';
-      ctx.fillRect(Math.floor(cx - pxW * 0.5 + eyeShift), Math.floor(mouthY - pxH * 0.3), Math.ceil(pxW), Math.ceil(pxH * 1.3));
+      ctx.beginPath();
+      ctx.arc(cx + eyeShiftX, mouthY, slimeW * 0.1, 0, Math.PI);
+      ctx.fill();
+    } else if (vy > 3) {
+      // Falling — Surprised "O" mouth
+      ctx.beginPath();
+      ctx.ellipse(cx + eyeShiftX, mouthY, slimeW * 0.05, slimeW * 0.08, 0, 0, Math.PI * 2);
+      ctx.stroke();
     } else {
-      // Normal — small smile (two dots)
-      ctx.fillStyle = '#2d7a3a';
-      ctx.fillRect(Math.floor(cx - pxW * 0.8 + eyeShift), Math.floor(mouthY), Math.ceil(pxW * 0.4), Math.ceil(pxH * 0.5));
-      ctx.fillRect(Math.floor(cx + pxW * 0.4 + eyeShift), Math.floor(mouthY), Math.ceil(pxW * 0.4), Math.ceil(pxH * 0.5));
+      // Idle — Cute smile
+      ctx.beginPath();
+      ctx.arc(cx + eyeShiftX, mouthY - 2, slimeW * 0.08, 0.2 * Math.PI, 0.8 * Math.PI);
+      ctx.stroke();
     }
 
-    // Cheek blush (subtle pink pixels)
-    ctx.fillStyle = 'rgba(255,150,150,0.35)';
-    ctx.fillRect(Math.floor(cx - eyeSpan - pxW * 0.8 + eyeShift), Math.floor(eyeY + pxH * 2), Math.ceil(pxW), Math.ceil(pxH * 0.7));
-    ctx.fillRect(Math.floor(cx + eyeSpan + pxW * 0.3 + eyeShift), Math.floor(eyeY + pxH * 2), Math.ceil(pxW), Math.ceil(pxH * 0.7));
+    // 5. Blush
+    ctx.fillStyle = 'rgba(255, 100, 150, 0.2)';
+    ctx.beginPath();
+    ctx.arc(cx - eyeSpacing * 1.8 + eyeShiftX, eyeY + 5, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx + eyeSpacing * 1.8 + eyeShiftX, eyeY + 5, 4, 0, Math.PI * 2);
+    ctx.fill();
 
     ctx.restore();
   }

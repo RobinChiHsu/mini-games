@@ -1,6 +1,13 @@
-// Canvas-drawn game icons for the hub
+// Canvas-drawn game icons for the hub — Redesigned for Cyber-Organic Theme
 const Icons = (() => {
   const DPR = window.devicePixelRatio || 1;
+  const COLORS = {
+    primary: '#ccff00',
+    secondary: '#00f0ff',
+    tertiary: '#ff007f',
+    glass: 'rgba(255, 255, 255, 0.2)',
+    glassDark: 'rgba(255, 255, 255, 0.05)'
+  };
 
   function create(size) {
     const c = document.createElement('canvas');
@@ -13,119 +20,95 @@ const Icons = (() => {
     return { c, ctx };
   }
 
-  // Mini slime for icons
-  function drawSlime(ctx, cx, cy, size) {
-    const px = size * 0.15;
-    const bodyColor = '#5ddb6e';
-    const dark = '#3aad4a';
-    const light = '#8cf09a';
-
-    // Simple dome shape
-    ctx.fillStyle = bodyColor;
-    ctx.fillRect(cx - px * 2, cy - px, px * 4, px * 3);
-    ctx.fillRect(cx - px * 3, cy, px * 6, px * 2);
-    ctx.fillRect(cx - px * 2, cy + px * 2, px * 4, px);
-
-    // Top highlight
-    ctx.fillStyle = light;
-    ctx.fillRect(cx - px, cy - px, px * 2, px);
-
-    // Edges
-    ctx.fillStyle = dark;
-    ctx.fillRect(cx - px * 3, cy, px, px * 2);
-    ctx.fillRect(cx + px * 2, cy, px, px * 2);
+  function drawMiniSlime(ctx, cx, cy, size) {
+    const s = size;
+    const grad = ctx.createLinearGradient(cx, cy - s*0.4, cx, cy + s*0.4);
+    grad.addColorStop(0, COLORS.primary);
+    grad.addColorStop(1, '#99cc00');
+    
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(cx - s*0.4, cy + s*0.3);
+    ctx.bezierCurveTo(cx - s*0.4, cy - s*0.4, cx + s*0.4, cy - s*0.4, cx + s*0.4, cy + s*0.3);
+    ctx.closePath();
+    ctx.fill();
 
     // Eyes
     ctx.fillStyle = '#fff';
-    ctx.fillRect(cx - px * 1.5, cy, px, px);
-    ctx.fillRect(cx + px * 0.5, cy, px, px);
-    ctx.fillStyle = '#1a1a2e';
-    ctx.fillRect(cx - px * 1.2, cy + px * 0.2, px * 0.5, px * 0.6);
-    ctx.fillRect(cx + px * 0.7, cy + px * 0.2, px * 0.5, px * 0.6);
+    ctx.beginPath();
+    ctx.arc(cx - s*0.12, cy - s*0.05, s*0.08, 0, Math.PI*2);
+    ctx.arc(cx + s*0.12, cy - s*0.05, s*0.08, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#0d0d12';
+    ctx.beginPath();
+    ctx.arc(cx - s*0.12, cy - s*0.05, s*0.04, 0, Math.PI*2);
+    ctx.arc(cx + s*0.12, cy - s*0.05, s*0.04, 0, Math.PI*2);
+    ctx.fill();
   }
 
   function downstairs(size) {
     const { c, ctx } = create(size);
     const s = size;
+    
+    // Abstract steps
+    ctx.strokeStyle = COLORS.secondary;
+    ctx.lineWidth = 3;
     ctx.lineCap = 'round';
-
-    // Platforms (steps going down)
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fillRect(s*0.1, s*0.25, s*0.35, 3);
-    ctx.fillRect(s*0.3, s*0.47, s*0.4, 3);
-    ctx.fillRect(s*0.15, s*0.69, s*0.35, 3);
-    ctx.fillRect(s*0.45, s*0.85, s*0.4, 3);
-
-    // Slime on platform
-    drawSlime(ctx, s * 0.45, s * 0.35, s * 0.5);
-
-    // Arrow down
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-    ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(s*0.82, s*0.3);
-    ctx.lineTo(s*0.82, s*0.6);
-    ctx.lineTo(s*0.75, s*0.53);
-    ctx.moveTo(s*0.82, s*0.6);
-    ctx.lineTo(s*0.89, s*0.53);
+    ctx.moveTo(s*0.2, s*0.3); ctx.lineTo(s*0.5, s*0.3);
+    ctx.moveTo(s*0.4, s*0.6); ctx.lineTo(s*0.7, s*0.6);
+    ctx.moveTo(s*0.3, s*0.9); ctx.lineTo(s*0.6, s*0.9);
     ctx.stroke();
 
+    drawMiniSlime(ctx, s * 0.45, s * 0.25, s * 0.5);
+    
+    // Arrow
+    ctx.fillStyle = COLORS.tertiary;
+    ctx.beginPath();
+    ctx.moveTo(s*0.8, s*0.35); ctx.lineTo(s*0.8, s*0.6);
+    ctx.lineTo(s*0.7, s*0.5); ctx.moveTo(s*0.8, s*0.6);
+    ctx.lineTo(s*0.9, s*0.5); ctx.stroke();
+    
     return c;
   }
 
   function doodle(size) {
     const { c, ctx } = create(size);
     const s = size;
-    ctx.lineCap = 'round';
+
+    // Pulse effect
+    ctx.fillStyle = 'rgba(0, 240, 255, 0.1)';
+    ctx.beginPath();
+    ctx.arc(s*0.5, s*0.5, s*0.45, 0, Math.PI*2);
+    ctx.fill();
 
     // Platforms
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.fillRect(s*0.15, s*0.75, s*0.35, 3);
-    ctx.fillRect(s*0.45, s*0.55, s*0.35, 3);
-    ctx.fillRect(s*0.2, s*0.35, s*0.3, 3);
-
-    // Spring on middle platform
-    ctx.strokeStyle = 'rgba(120,255,120,0.7)';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = COLORS.primary;
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(s*0.6, s*0.55);
-    ctx.lineTo(s*0.57, s*0.5);
-    ctx.lineTo(s*0.63, s*0.47);
-    ctx.lineTo(s*0.6, s*0.44);
+    ctx.moveTo(s*0.2, s*0.8); ctx.lineTo(s*0.4, s*0.8);
+    ctx.moveTo(s*0.6, s*0.5); ctx.lineTo(s*0.8, s*0.5);
     ctx.stroke();
 
-    // Slime jumping up
-    drawSlime(ctx, s * 0.35, s * 0.15, s * 0.5);
-
-    // Arrow up
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(s*0.82, s*0.65);
-    ctx.lineTo(s*0.82, s*0.3);
-    ctx.lineTo(s*0.75, s*0.37);
-    ctx.moveTo(s*0.82, s*0.3);
-    ctx.lineTo(s*0.89, s*0.37);
-    ctx.stroke();
-
+    drawMiniSlime(ctx, s * 0.4, s * 0.35, s * 0.5);
+    
     return c;
   }
 
   function upstairs(size) {
     const { c, ctx } = create(size);
     const s = size;
-    ctx.lineCap = 'round';
+    
+    ctx.strokeStyle = COLORS.tertiary;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(s*0.1, s*0.9); ctx.lineTo(s*0.3, s*0.9);
+    ctx.moveTo(s*0.3, s*0.7); ctx.lineTo(s*0.5, s*0.7);
+    ctx.moveTo(s*0.5, s*0.5); ctx.lineTo(s*0.7, s*0.5);
+    ctx.stroke();
 
-    // Staircase pattern
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.fillRect(s*0.1, s*0.8, s*0.3, 3);
-    ctx.fillRect(s*0.25, s*0.62, s*0.3, 3);
-    ctx.fillRect(s*0.4, s*0.44, s*0.3, 3);
-    ctx.fillRect(s*0.55, s*0.26, s*0.3, 3);
-
-    // Slime on stairs
-    drawSlime(ctx, s * 0.52, s * 0.32, s * 0.5);
-
+    drawMiniSlime(ctx, s * 0.6, s * 0.4, s * 0.5);
+    
     return c;
   }
 
@@ -133,54 +116,29 @@ const Icons = (() => {
     const { c, ctx } = create(size);
     const s = size;
 
-    // Grid cells
-    const gridSize = 3;
-    const cellS = s * 0.2;
-    const gx = s * 0.15;
-    const gy = s * 0.18;
-
-    for (let r = 0; r < gridSize; r++) {
-      for (let cl = 0; cl < gridSize; cl++) {
-        ctx.fillStyle = 'rgba(255,255,255,0.12)';
-        ctx.fillRect(gx + cl * (cellS + 2), gy + r * (cellS + 2), cellS, cellS);
+    // Grid representation
+    ctx.fillStyle = COLORS.glass;
+    for(let i=0; i<2; i++) {
+      for(let j=0; j<2; j++) {
+        ctx.fillRect(s*0.2 + i*s*0.35, s*0.2 + j*s*0.35, s*0.25, s*0.25);
       }
     }
 
-    // Revealed cells with numbers
-    ctx.fillStyle = 'rgba(255,255,255,0.04)';
-    ctx.fillRect(gx, gy, cellS, cellS);
-    ctx.fillRect(gx + cellS + 2, gy, cellS, cellS);
-
-    ctx.font = `bold ${cellS * 0.6}px 'JetBrains Mono', monospace`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#6ea8fe';
-    ctx.fillText('1', gx + cellS/2, gy + cellS/2);
-    ctx.fillStyle = '#63d97a';
-    ctx.fillText('2', gx + cellS + 2 + cellS/2, gy + cellS/2);
-
-    // Flag
-    ctx.fillStyle = '#ff6b6b';
-    const fx = gx + 2*(cellS+2) + cellS*0.35;
-    const fy = gy + 2*(cellS+2) + cellS*0.2;
-    ctx.fillRect(fx + 2, fy, 1.5, cellS*0.6);
+    // Exploding mine (stylized)
+    ctx.fillStyle = COLORS.tertiary;
     ctx.beginPath();
-    ctx.moveTo(fx + 3.5, fy);
-    ctx.lineTo(fx + cellS*0.45, fy + cellS*0.15);
-    ctx.lineTo(fx + 3.5, fy + cellS*0.3);
+    ctx.arc(s*0.7, s*0.7, s*0.15, 0, Math.PI*2);
     ctx.fill();
-
-    // Mine hint
-    ctx.fillStyle = 'rgba(255,80,80,0.5)';
-    ctx.beginPath();
-    ctx.arc(s*0.75, s*0.75, s*0.1, 0, Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(255,80,80,0.5)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(s*0.75, s*0.63); ctx.lineTo(s*0.75, s*0.87);
-    ctx.moveTo(s*0.63, s*0.75); ctx.lineTo(s*0.87, s*0.75);
-    ctx.stroke();
+    
+    ctx.strokeStyle = COLORS.tertiary;
+    ctx.lineWidth = 2;
+    for(let i=0; i<8; i++) {
+      const ang = i * Math.PI / 4;
+      ctx.beginPath();
+      ctx.moveTo(s*0.7 + Math.cos(ang)*s*0.15, s*0.7 + Math.sin(ang)*s*0.15);
+      ctx.lineTo(s*0.7 + Math.cos(ang)*s*0.25, s*0.7 + Math.sin(ang)*s*0.25);
+      ctx.stroke();
+    }
 
     return c;
   }
@@ -188,28 +146,21 @@ const Icons = (() => {
   function tetris(size) {
     const { c, ctx } = create(size);
     const s = size;
-    const b = s * 0.18;
-    const gap = 1;
+    const b = s * 0.2;
 
     // T-piece
-    ctx.fillStyle = 'rgba(180,130,255,0.8)';
-    ctx.fillRect(s*0.1, s*0.15, b, b);
-    ctx.fillRect(s*0.1 + b + gap, s*0.15, b, b);
-    ctx.fillRect(s*0.1 + 2*(b+gap), s*0.15, b, b);
-    ctx.fillRect(s*0.1 + b + gap, s*0.15 + b + gap, b, b);
+    ctx.fillStyle = COLORS.secondary;
+    ctx.fillRect(s*0.1, s*0.2, b, b);
+    ctx.fillRect(s*0.1 + b + 1, s*0.2, b, b);
+    ctx.fillRect(s*0.1 + 2*(b + 1), s*0.2, b, b);
+    ctx.fillRect(s*0.1 + b + 1, s*0.2 + b + 1, b, b);
 
-    // L-piece
-    ctx.fillStyle = 'rgba(255,170,80,0.8)';
-    ctx.fillRect(s*0.12, s*0.55, b, b);
-    ctx.fillRect(s*0.12, s*0.55 + b + gap, b, b);
-    ctx.fillRect(s*0.12 + b + gap, s*0.55 + b + gap, b, b);
-
-    // S-piece
-    ctx.fillStyle = 'rgba(100,220,100,0.8)';
-    ctx.fillRect(s*0.55, s*0.5, b, b);
-    ctx.fillRect(s*0.55 + b + gap, s*0.5, b, b);
-    ctx.fillRect(s*0.55 - b - gap, s*0.5 + b + gap, b, b);
-    ctx.fillRect(s*0.55, s*0.5 + b + gap, b, b);
+    // Block
+    ctx.fillStyle = COLORS.primary;
+    ctx.fillRect(s*0.5, s*0.5, b, b);
+    ctx.fillRect(s*0.5 + b + 1, s*0.5, b, b);
+    ctx.fillRect(s*0.5, s*0.5 + b + 1, b, b);
+    ctx.fillRect(s*0.5 + b + 1, s*0.5 + b + 1, b, b);
 
     return c;
   }
@@ -221,7 +172,7 @@ const Icons = (() => {
       const name = el.dataset.icon;
       if (drawers[name]) {
         const isWide = el.closest('.game-card.wide');
-        const size = isWide ? 40 : 48;
+        const size = isWide ? 48 : 56;
         el.innerHTML = '';
         el.appendChild(drawers[name](size));
       }

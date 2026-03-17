@@ -65,14 +65,17 @@
 
     if (stats.score !== undefined) {
       const isNew = Storage.saveScore(currentGame + (stats.difficulty || ''), stats.score);
-      html += `<div class="highlight">${stats.score}</div>`;
-      if (stats.label) html += `<div>${stats.label}</div>`;
-      if (isNew) html += `<div>${I18n.t('new_record')}</div>`;
+      html += `<div class="gameover-stats">
+                <span class="label">${I18n.t('score')}</span>
+                <span class="highlight">${stats.score}</span>
+              </div>`;
+      if (stats.label) html += `<div class="label">${stats.label}</div>`;
+      if (isNew) html += `<div class="accent" style="color: var(--accent-primary); font-weight: 700;">${I18n.t('new_record')}!</div>`;
     }
     if (stats.time !== undefined) {
-      html += `<div>${I18n.t('time')}: ${stats.time}</div>`;
+      html += `<div class="label">${I18n.t('time')}: ${stats.time}</div>`;
     }
-    if (stats.extra) html += `<div>${stats.extra}</div>`;
+    if (stats.extra) html += `<div class="label">${stats.extra}</div>`;
 
     statsEl.innerHTML = html;
     showScreen('gameover');
@@ -82,8 +85,23 @@
     I18n.applyAll();
     Icons.renderAll();
 
-    // Game cards
+    // Game cards with tilt effect
     document.querySelectorAll('.game-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px) scale(1.02)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+
       card.addEventListener('click', () => {
         Audio.click();
         const id = card.dataset.game;
