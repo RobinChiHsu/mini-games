@@ -183,7 +183,7 @@ const Icons = (() => {
     ctx.fillRect(gx, gy, cellS, cellS);
     ctx.fillRect(gx + cellS + 2, gy, cellS, cellS);
 
-    ctx.font = `bold ${cellS * 0.6}px sans-serif`;
+    ctx.font = `bold ${cellS * 0.6}px 'JetBrains Mono', monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#6ea8fe';

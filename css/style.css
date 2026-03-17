@@ -11,7 +11,7 @@ html, body {
   overflow: hidden;
   background: #0a0a0a;
   color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   touch-action: manipulation;
 }
 
@@ -253,7 +253,7 @@ html, body {
   font-variant-numeric: tabular-nums;
   min-width: 80px;
   text-align: right;
-  font-family: 'SF Mono', 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
   font-size: 0.8rem;
 }
 
@@ -361,7 +361,7 @@ html, body {
   align-items: center;
   justify-content: center;
   background: rgba(255,255,255,0.04);
-  font-family: 'SF Mono', 'Courier New', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
   font-weight: 700;
   cursor: pointer;
   user-select: none;

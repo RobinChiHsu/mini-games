@@ -150,9 +150,16 @@
     });
 
     // Footer buttons
-    document.getElementById('btn-lang').addEventListener('click', () => {
+    const langBtn = document.getElementById('btn-lang');
+    function updateLangBtn() {
+      langBtn.textContent = I18n.getLang() === 'zh-TW' ? '中' : 'EN';
+    }
+    updateLangBtn();
+    langBtn.addEventListener('click', () => {
       Audio.click();
       I18n.toggleLang();
+      updateLangBtn();
+      Icons.renderAll();
     });
 
     document.getElementById('btn-sound').addEventListener('click', () => {

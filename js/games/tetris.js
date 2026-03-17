@@ -474,7 +474,7 @@ App.registerGame('tetris', ({ canvas, area, controls, options, onGameOver, onSco
     // Hold panel
     const previewSize = Math.floor(cellSize * 0.7);
     ctx.fillStyle = 'rgba(255,255,255,0.4)';
-    ctx.font = `${Math.max(10, cellSize * 0.45)}px 'Courier New', monospace`;
+    ctx.font = `${Math.max(10, cellSize * 0.45)}px 'JetBrains Mono', monospace`;
     ctx.fillText('HOLD', 4, cellSize * 0.7);
 
     if (holdType) {
