@@ -27,7 +27,8 @@ const App = (() => {
     const scoreEl = document.getElementById('game-score');
     const titleEl = document.getElementById('game-title');
 
-    titleEl.textContent = I18n.t('game_' + id.replace('-', '_').replace('doodle-jump', 'doodle'));
+    const i18nKey = { 'doodle-jump': 'game_doodle' }[id] || 'game_' + id.replace(/-/g, '_');
+    titleEl.textContent = I18n.t(i18nKey);
     scoreEl.textContent = '';
     controls.innerHTML = '';
 

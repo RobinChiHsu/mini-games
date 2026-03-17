@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mini-games-v1';
+const CACHE_NAME = 'mini-games-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -12,6 +12,7 @@ const ASSETS = [
   '/js/games/doodle-jump.js',
   '/js/games/upstairs.js',
   '/js/games/minesweeper.js',
+  '/js/games/tetris.js',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
 ];

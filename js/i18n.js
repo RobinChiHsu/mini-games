@@ -24,6 +24,7 @@ const I18n = (() => {
       new_record: '新紀錄！',
       floor: '樓層',
       height: '高度',
+      game_tetris: '俄羅斯方塊',
     },
     en: {
       game_downstairs: 'Downstairs',
@@ -49,6 +50,7 @@ const I18n = (() => {
       new_record: 'NEW RECORD!',
       floor: 'FLOOR',
       height: 'HEIGHT',
+      game_tetris: 'Tetris',
     }
   };
 
