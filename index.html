@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+  <title>MINI GAMES</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Hub Screen -->
+  <div id="screen-hub" class="screen active">
+    <div class="hub-container">
+      <h1 class="title">MINI GAMES</h1>
+      <div class="game-list">
+        <button class="game-card" data-game="downstairs">
+          <span class="game-icon">⬇</span>
+          <span class="game-name" data-i18n="game_downstairs">下樓梯</span>
+        </button>
+        <button class="game-card" data-game="doodle-jump">
+          <span class="game-icon">⬆</span>
+          <span class="game-name" data-i18n="game_doodle">Doodle Jump</span>
+        </button>
+        <button class="game-card" data-game="upstairs">
+          <span class="game-icon">🪜</span>
+          <span class="game-name" data-i18n="game_upstairs">上樓梯</span>
+        </button>
+        <button class="game-card" data-game="minesweeper">
+          <span class="game-icon">💣</span>
+          <span class="game-name" data-i18n="game_minesweeper">踩地雷</span>
+        </button>
+      </div>
+      <div class="hub-footer">
+        <button class="icon-btn" id="btn-settings" aria-label="Settings">⚙</button>
+        <button class="icon-btn" id="btn-lang" aria-label="Language">🌐</button>
+        <button class="icon-btn" id="btn-sound" aria-label="Sound">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="screen-game" class="screen">
+    <div class="game-header">
+      <button class="icon-btn" id="btn-back" aria-label="Back">←</button>
+      <span class="game-title" id="game-title"></span>
+      <span class="game-score" id="game-score"></span>
+    </div>
+    <div class="game-area" id="game-area">
+      <canvas id="game-canvas"></canvas>
+    </div>
+    <div class="game-controls" id="game-controls"></div>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div id="screen-gameover" class="screen">
+    <div class="gameover-container">
+      <h2 class="gameover-title" data-i18n="game_over">GAME OVER</h2>
+      <div class="gameover-stats" id="gameover-stats"></div>
+      <div class="gameover-actions">
+        <button class="menu-btn" id="btn-retry" data-i18n="retry">再玩一次</button>
+        <button class="menu-btn" id="btn-hub" data-i18n="back_to_hub">回大廳</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minesweeper Difficulty Screen -->
+  <div id="screen-difficulty" class="screen">
+    <div class="hub-container">
+      <h2 class="small-title" data-i18n="select_difficulty">選擇難度</h2>
+      <div class="difficulty-list">
+        <button class="menu-btn" data-difficulty="easy" data-i18n="easy">簡單</button>
+        <button class="menu-btn" data-difficulty="medium" data-i18n="medium">中等</button>
+        <button class="menu-btn" data-difficulty="hard" data-i18n="hard">困難</button>
+      </div>
+      <button class="menu-btn secondary" id="btn-diff-back" data-i18n="back">返回</button>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/games/downstairs.js"></script>
+  <script src="js/games/doodle-jump.js"></script>
+  <script src="js/games/upstairs.js"></script>
+  <script src="js/games/minesweeper.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
