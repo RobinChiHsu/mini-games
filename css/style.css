@@ -236,6 +236,14 @@ body::before {
   transform: translateY(-2px);
 }
 
+.difficulty-list,
+.mode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
 .menu-btn.secondary {
   border-color: var(--border-glass);
   color: var(--text-muted);
