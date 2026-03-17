@@ -405,6 +405,7 @@ body::before {
 
 /* Minesweeper Grid */
 .mine-grid {
+  display: grid;
   gap: 2px;
   background: var(--border-glass);
   border: 2px solid var(--border-glass);
