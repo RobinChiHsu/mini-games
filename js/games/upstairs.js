@@ -56,12 +56,24 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
     onScore(`${I18n.t('floor')}: 0`);
   }
 
+  let lastPlatX = 0;
+
   function createPlatform(y) {
-    const w = 50 + Math.random() * 60;
-    const x = Math.random() * (W - w);
+    const w = 65 + Math.random() * 55;
+    // Limit horizontal distance from last platform so it's reachable
+    const maxDx = W * 0.45;
+    let x;
+    if (platforms.length > 0) {
+      const minX = Math.max(0, lastPlatX - maxDx);
+      const maxX = Math.min(W - w, lastPlatX + maxDx);
+      x = minX + Math.random() * Math.max(0, maxX - minX);
+    } else {
+      x = Math.random() * (W - w);
+    }
+    lastPlatX = x;
     let type = 'normal';
-    if (floor > 15 && Math.random() < 0.12) type = 'spike';
-    else if (floor > 30 && Math.random() < 0.08) type = 'crumble';
+    if (floor > 20 && Math.random() < 0.1) type = 'spike';
+    else if (floor > 40 && Math.random() < 0.06) type = 'crumble';
     return { x, y, w, h: PLAT_H, type, timer: 0 };
   }
 
@@ -146,7 +158,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
 
     // Generate new platforms above
     while (topPlat > -20) {
-      const gap = 55 + Math.random() * 30;
+      const gap = 42 + Math.random() * 25;
       topPlat -= gap;
       platforms.push(createPlatform(topPlat));
       floor++;
