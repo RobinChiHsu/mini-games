@@ -8,9 +8,9 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
   const PLAYER_H = 32;
   const PLAT_H = 10;
   const GRAVITY = 0.25;
-  const JUMP_FORCE = -7;
-  const MOVE_SPEED = 3;
-  const SCROLL_SPEED_BASE = 0.35;
+  const JUMP_FORCE = -8;
+  const MOVE_SPEED = 4;
+  const SCROLL_SPEED_BASE = 0.3;
 
   let player, platforms, scrollSpeed, score, floor;
   let lastTime = 0;
@@ -61,7 +61,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
   function createPlatform(y) {
     const w = 65 + Math.random() * 55;
     // Limit horizontal distance from last platform so it's reachable
-    const maxDx = W * 0.45;
+    const maxDx = W * 0.35;
     let x;
     if (platforms.length > 0) {
       const minX = Math.max(0, lastPlatX - maxDx);
@@ -158,7 +158,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
 
     // Generate new platforms above
     while (topPlat > -20) {
-      const gap = 42 + Math.random() * 25;
+      const gap = 35 + Math.random() * 20;
       topPlat -= gap;
       platforms.push(createPlatform(topPlat));
       floor++;
