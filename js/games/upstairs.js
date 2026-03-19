@@ -101,7 +101,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
     if (player.vy >= 0) {
       for (let i = 0; i < platforms.length; i++) {
         const plat = platforms[i];
-        if (plat.crumbling && plat.timer > 20) continue;
+        if (plat.crumbling && plat.timer > 45) continue;
         if (
           player.y + PLAYER_H >= plat.y &&
           player.y + PLAYER_H <= plat.y + plat.h + player.vy + 2 &&
@@ -117,9 +117,15 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
           playerOnGround = true;
           canJump = true;
 
-          if (plat.type === 'crumble' && !plat.crumbling) {
-            plat.crumbling = true;
-            plat.timer = 0;
+          if (plat.type === 'crumble') {
+            if (!plat.crumbling) {
+              plat.crumbling = true;
+              plat.timer = 0;
+            }
+            // 自動彈跳，不用按跳
+            player.vy = JUMP_FORCE;
+            canJump = false;
+            Audio.jump();
           }
           break;
         }
@@ -141,7 +147,7 @@ App.registerGame('upstairs', ({ canvas, area, controls, onGameOver, onScore }) =
       plat.y += scrollSpeed;
       if (plat.crumbling) {
         plat.timer++;
-        if (plat.timer > 30) plat.y += 3;
+        if (plat.timer > 50) plat.y += 3;
       }
     }
     player.y += scrollSpeed;
