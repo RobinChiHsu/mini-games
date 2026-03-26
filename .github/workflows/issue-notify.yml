@@ -1,0 +1,18 @@
+name: Issue Discord Notify
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -s -H "Content-Type: application/json" \
+            -d "{\"embeds\":[{\"title\":\"🆕 New Issue: ${{ github.event.issue.title }}\",\"url\":\"${{ github.event.issue.html_url }}\",\"description\":\"**Repo:** ${{ github.repository }}\n**Author:** ${{ github.event.issue.user.login }}\",\"color\":5814783}]}" \
+            "$DISCORD_WEBHOOK_URL"
+
