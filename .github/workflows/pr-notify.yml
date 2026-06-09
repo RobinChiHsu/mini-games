@@ -1,0 +1,30 @@
+name: PR Discord Notify
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          REPO: ${{ github.repository }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          payload=$(jq -n \
+            --arg title "🔀 New PR #$PR_NUMBER: $PR_TITLE" \
+            --arg url "$PR_URL" \
+            --arg description "**Repo:** $REPO
+**Author:** $AUTHOR
+**Branch:** $BRANCH" \
+            '{embeds:[{title:$title,url:$url,description:$description,color:6750207}]}')
+          curl -s -H "Content-Type: application/json" \
+            -d "$payload" \
+            "$DISCORD_WEBHOOK_URL"

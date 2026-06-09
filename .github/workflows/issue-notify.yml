@@ -11,8 +11,17 @@ jobs:
       - name: Send Discord notification
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          REPO: ${{ github.repository }}
+          AUTHOR: ${{ github.event.issue.user.login }}
         run: |
+          payload=$(jq -n \
+            --arg title "🆕 New Issue: $ISSUE_TITLE" \
+            --arg url "$ISSUE_URL" \
+            --arg description "**Repo:** $REPO
+**Author:** $AUTHOR" \
+            '{embeds:[{title:$title,url:$url,description:$description,color:5814783}]}')
           curl -s -H "Content-Type: application/json" \
-            -d "{\"embeds\":[{\"title\":\"🆕 New Issue: ${{ github.event.issue.title }}\",\"url\":\"${{ github.event.issue.html_url }}\",\"description\":\"**Repo:** ${{ github.repository }}\n**Author:** ${{ github.event.issue.user.login }}\",\"color\":5814783}]}" \
+            -d "$payload" \
             "$DISCORD_WEBHOOK_URL"
-
