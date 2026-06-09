@@ -19,9 +19,9 @@ jobs:
           payload=$(jq -n \
             --arg title "🆕 New Issue: $ISSUE_TITLE" \
             --arg url "$ISSUE_URL" \
-            --arg description "**Repo:** $REPO
-**Author:** $AUTHOR" \
-            '{embeds:[{title:$title,url:$url,description:$description,color:5814783}]}')
+            --arg repo "$REPO" \
+            --arg author "$AUTHOR" \
+            '{embeds:[{title:$title,url:$url,description:("**Repo:** " + $repo + "\n**Author:** " + $author),color:5814783}]}')
           curl -s -H "Content-Type: application/json" \
             -d "$payload" \
             "$DISCORD_WEBHOOK_URL"
